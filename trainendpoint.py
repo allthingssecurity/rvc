@@ -37,7 +37,7 @@ def process_audio():
                 file.save(filepath)
 
         # After saving all files to the temporary directory, call the scripts
-        log_dir = f'{tmpdirname}/logs/{model_name}'
+        log_dir = f'logs/{model_name}'
         os.makedirs(log_dir, exist_ok=True)  # Ensure log directory exists
 
         # Assuming your scripts are modified to accept a directory of audio files

@@ -7,19 +7,18 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Allowed extensions for the audio files
-ALLOWED_EXTENSIONS = {'wav', 'mp3'}
+ALLOWED_EXTENSIONS = {'wav', 'mp3', 'm4a'}
 
 def allowed_file(filename):
     """Check if the uploaded file has an allowed extension."""
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
     """Endpoint to upload files and trigger processing."""
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
-    
+
     files = request.files.getlist('file')
     model_name = request.form.get('model_name', '')
     if not model_name:
@@ -36,15 +35,11 @@ def process_audio():
                 filename = secure_filename(file.filename)
                 filepath = os.path.join(tmpdirname, filename)
                 file.save(filepath)
-        
-        # After saving all files to the temporary directory, call the scripts
-        # and pass the directory as an argument to them.
-        # Update the script paths and arguments as per your requirements
 
-        # Example: Process the directory with your scripts
+        # After saving all files to the temporary directory, call the scripts
         log_dir = f'{tmpdirname}/logs/{model_name}'
         os.makedirs(log_dir, exist_ok=True)  # Ensure log directory exists
-        
+
         # Assuming your scripts are modified to accept a directory of audio files
         subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', tmpdirname, '40000', '12', log_dir, 'False'], check=True)
         subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
@@ -57,7 +52,7 @@ def process_audio():
         return jsonify({'error': 'An error occurred during processing', 'details': str(e)}), 500
     finally:
         # Optionally remove the temporary directory after processing if no longer needed
-        # shutil.rmtree(tmpdirname)
+          shutil.rmtree(tmpdirname)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

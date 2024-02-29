@@ -27,7 +27,7 @@ def upload_files(url, model_name, file_paths):
 
 if __name__ == "__main__":
     # URL of the Flask endpoint
-    url = "https://8x1mfa4q76rg7l-5000.proxy.runpod.net/process_audio"
+    url = "https://s0x1eehwjwg0ud-5000.proxy.runpod.net/process_audio"
 
     # Model name (adjust as needed)
     model_name = "shashank"

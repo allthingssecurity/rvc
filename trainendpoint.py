@@ -14,6 +14,11 @@ def allowed_file(filename):
     """Check if the uploaded file has an allowed extension."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route('/')
+def index():
+    # Serve the file upload form
+    return render_template('train.html')
+
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
     """Endpoint to upload files and trigger processing."""

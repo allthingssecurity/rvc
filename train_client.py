@@ -27,13 +27,13 @@ def upload_files(url, model_name, file_paths):
 
 if __name__ == "__main__":
     # URL of the Flask endpoint
-    url = "https://s0x1eehwjwg0ud-5000.proxy.runpod.net/process_audio"
+    url = "https://nbsq4wth0plslz-5000.proxy.runpod.net/process_audio"
 
     # Model name (adjust as needed)
-    model_name = "shashank"
+    model_name = "cousin_brijesh"
 
     # List of audio file paths to upload
-    file_paths = ["c:/shashank/trips/1.mp3"]
+    file_paths = ["c:/shashank/trips/cousin_brijesh.mp3"]
 
     # Make the API call to upload the files
     upload_files(url, model_name, file_paths)

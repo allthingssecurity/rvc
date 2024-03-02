@@ -46,10 +46,15 @@ def process_audio():
         subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
         subprocess.run(['python', 'extract_feature_print.py', 'cuda:0', '1', '0', '0', log_dir], check=True)
         subprocess.run(['python', 'pretrain.py', '--exp_dir1', model_name, '--sr2', '40k', '--if_f0_3', '1', '--spk_id5', '0'], check=True)
-        subprocess.run(['python3', 'train_nsf_sim_cache_sid_load_pretrain.py', '-e', model_name, '-sr', '40k', '-f0', '1', '-bs', '19', '-g', '0', '-te', '200', '-se', '50', '-pg', 'pretrained/f0G40k.pth', '-pd', 'pretrained/f0D40k.pth', '-l', '0', '-c', '0'], check=True)
+        subprocess.run(['python3', 'train_nsf_sim_cache_sid_load_pretrain.py', '-e', model_name, '-sr', '40k', '-f0', '1', '-bs', '19', '-g', '0', '-te', '200', '-se', '5', '-pg', 'pretrained/f0G40k.pth', '-pd', 'pretrained/f0D40k.pth', '-l', '0', '-c', '0'], check=True)
 
         return jsonify({'success': True, 'message': 'Files processed successfully.'})
     except Exception as e:
+        model_path = os.path.join('weights', f'{model_name}.pth')
+        if os.path.isfile(model_path):
+            return jsonify({'success': True, 'message': 'Files processed with errors.', 'details': str(e)})
+        else:
+            return jsonify({'error': 'An error occurred during processing', 'details': str(e)}), 500
         return jsonify({'error': 'An error occurred during processing', 'details': str(e)}), 500
     finally:
         # Optionally remove the temporary directory after processing if no longer needed

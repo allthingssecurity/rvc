@@ -9,7 +9,7 @@
     <h2>Upload Audio Files for Processing</h2>
     <form action="{{ url_for('process_audio') }}" method="post" enctype="multipart/form-data">
         <label for="files">Choose audio files:</label>
-        <input type="file" id="files" name="files[]" multiple><br><br>
+        <input type="file" id="file" name="file" multiple><br><br>
         <label for="model_name">Model Name:</label>
         <input type="text" id="model_name" name="model_name" required><br><br>
         <input type="submit" value="Upload">

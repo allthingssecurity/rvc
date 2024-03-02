@@ -526,8 +526,8 @@ def train_and_evaluate(
             "saving final ckpt:%s"
             % (savee(ckpt, hps.sample_rate, hps.if_f0, hps.name, epoch))
         )
-        sleep(1)
-        os._exit(2333333)
+        #sleep(1)
+        #os._exit(2333333)
 
 
 if __name__ == "__main__":

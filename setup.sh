@@ -11,7 +11,7 @@ pip3 install --upgrade setuptools wheel
 pip3 install --upgrade pip
 
 # Install Python packages
-pip3 install faiss-cpu==1.7.2 fairseq gradio==3.14.0 ffmpeg ffmpeg-python praat-parselmouth pyworld numpy==1.23.5 numba==0.56.4 librosa==0.9.2
+pip3 install faiss-cpu==1.7.2 fairseq gradio==3.14.0 ffmpeg ffmpeg-python praat-parselmouth pyworld numpy==1.23.5 numba==0.56.4 librosa==0.9.2 flask boto3 av flask_dance 
 
 # Clone the GitHub repository
 

@@ -8,7 +8,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default_value')
 
 def upload_to_do(file_path,spk_id):
     # Configure Cloudinary with your credentials
-    boto_session=session = session.Session()
+    boto_session=session.Session()
     client = boto_session.client('s3',
                             region_name='nyc3',
                             endpoint_url='https://nyc3.digitaloceanspaces.com',

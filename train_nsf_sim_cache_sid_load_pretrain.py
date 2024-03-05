@@ -1,6 +1,6 @@
 import sys, os
 import glob
-from upload import upload_to_cloudinary
+from upload import upload_to_do
 now_dir = os.getcwd()
 sys.path.append(os.path.join(now_dir, "train"))
 import utils

@@ -14,9 +14,9 @@ def upload_to_do(file_path,spk_id):
                             endpoint_url='https://nyc3.digitaloceanspaces.com',
                             aws_access_key_id=ACCESS_ID,
                             aws_secret_access_key=SECRET_KEY)
-
+    filename_only = os.path.basename(file_path)
     # Upload a file to your Space
-    response=client.upload_file(file_path, 'sing', 'xyz.pth')
+    response=client.upload_file(file_path, 'sing', filename_only)
 
     
     return response

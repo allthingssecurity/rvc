@@ -20,7 +20,7 @@ def upload_to_do(file_path,spk_id):
                             aws_secret_access_key=SECRET_KEY)
 
     # Upload a file to your Space
-    response=client.upload_file(file_path, spk_id, f'sing/{spk_id}.pth')
+    response=client.upload_file(file_path, spk_id, f'sing/{spk_id}')
 
     
     return response

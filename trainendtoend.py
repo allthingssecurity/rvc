@@ -147,7 +147,7 @@ def close_files(files):
         file_obj.close()
 
 def main():
-    env_vars = {"ACCESS_ID": "DO0026WEQUG4WF6WQNJ9", "SECRET_KEY": "UG7kQicGgWmkfVmESWK889RxZG49UqV7vRfYUJDFFUo"}
+    
     model_name = "mamtaji_x"
     file_paths = ["c:/shashank/trips/mamta.mp3"]
     bucket_name = "sing"  # Your DigitalOcean Space name

@@ -8,7 +8,7 @@ import boto3
 import os
 from botocore.exceptions import ClientError
 
-runpod.api_key = "A0B4LOEFRYC8CRG0K6Z1WI2HT6L4MWRGU93NH3V2"
+runpod.api_key = ""
 
 # Get all my pods
 #pods = runpod.get_pods()
@@ -19,8 +19,8 @@ runpod.api_key = "A0B4LOEFRYC8CRG0K6Z1WI2HT6L4MWRGU93NH3V2"
 
 
 env_vars = {
-    "ACCESS_ID": "DO0026WEQUG4WF6WQNJ9",
-    "SECRET_KEY": "UG7kQicGgWmkfVmESWK889RxZG49UqV7vRfYUJDFFUo",
+    "ACCESS_ID": "",
+    "SECRET_KEY": "",
 }
 
 # Create a pod

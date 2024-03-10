@@ -558,9 +558,9 @@ def train_and_evaluate(
         response = upload_to_do(pth_file_path,pth_file_path)
 
         print(response)
-
-        sleep(1)
-        os._exit(2333333)
+    return "success"
+        #sleep(1)
+        #os._exit(2333333)
 
 
 if __name__ == "__main__":

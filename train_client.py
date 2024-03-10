@@ -1,6 +1,6 @@
 import requests
 
-def upload_files(url, model_name, file_paths):
+def upload_files(url, model_name, file_paths,timeout=600):
     """
     Uploads multiple files to a specified URL.
 
@@ -15,7 +15,7 @@ def upload_files(url, model_name, file_paths):
     data = {'model_name': model_name}
 
     # Send a POST request to the server
-    response = requests.post(url, files=files, data=data)
+    response = requests.post(url, files=files, data=data,timeout=timeout)
 
     # Handle the response
     if response.status_code == 200:
@@ -27,10 +27,10 @@ def upload_files(url, model_name, file_paths):
 
 if __name__ == "__main__":
     # URL of the Flask endpoint
-    url = "https://0xku9dxbra8pu7-5000.proxy.runpod.net/process_audio"
+    url = "https://mofrrz8exxdfrg-5000.proxy.runpod.net/process_audio"
 
     # Model name (adjust as needed)
-    model_name = "cousin_brijesh"
+    model_name = "cousin_brijesh2"
 
     # List of audio file paths to upload
     file_paths = ["c:/shashank/trips/cousin_brijesh.mp3"]

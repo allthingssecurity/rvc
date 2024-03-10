@@ -15,22 +15,32 @@ def upload_files(url, model_name, file_paths,timeout=600):
     data = {'model_name': model_name}
 
     # Send a POST request to the server
-    response = requests.post(url, files=files, data=data,timeout=timeout)
+    
+    try:
+        # Your existing upload logic here
+        response = requests.post(url, files=files, data=data, timeout=timeout)
+        response.raise_for_status()  # This will raise an exception for HTTP error codes
+        return True, "Files uploaded successfully."
+    except requests.exceptions.RequestException as e:
+        print("start doing file check")
+        return False, str(e)
+    
+    #response = requests.post(url, files=files, data=data,timeout=timeout)
 
     # Handle the response
-    if response.status_code == 200:
-        print("Files uploaded successfully.")
-        print(response.json())  # Print server response
-    else:
-        print("Failed to upload files.")
-        print(response.text)
+    #if response.status_code == 200:
+    #    print("Files uploaded successfully.")
+    #    print(response.json())  # Print server response
+    #else:
+    #    print("Failed to upload files.")
+     #   print(response.text)
 
 if __name__ == "__main__":
     # URL of the Flask endpoint
-    url = "https://mofrrz8exxdfrg-5000.proxy.runpod.net/process_audio"
+    url = "https://9iid46dric798j-5000.proxy.runpod.net/process_audio"
 
     # Model name (adjust as needed)
-    model_name = "cousin_brijesh2"
+    model_name = "cousin_brijesh4"
 
     # List of audio file paths to upload
     file_paths = ["c:/shashank/trips/cousin_brijesh.mp3"]

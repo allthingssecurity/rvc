@@ -8,7 +8,9 @@ import boto3
 import os
 from botocore.exceptions import ClientError
 
-runpod.api_key = ""
+runpod.api_key =os.getenv("RUNPOD_KEY")
+
+
 
 # Get all my pods
 #pods = runpod.get_pods()
@@ -18,9 +20,12 @@ runpod.api_key = ""
 #pod = runpod.get_pod(pod.id)
 
 
+ACCESS_ID=os.getenv("ACCESS_ID")
+SECRET_KEY=os.getenv("SECRET_KEY")
+
 env_vars = {
-    "ACCESS_ID": "",
-    "SECRET_KEY": "",
+    "ACCESS_ID": ACCESS_ID,
+    "SECRET_KEY": SECRET_KEY,
 }
 
 # Create a pod
@@ -156,7 +161,7 @@ def main():
         #upload_files(url)
         
         # Proceed with asynchronous file upload
-        upload_files('DO0026WEQUG4WF6WQNJ9','UG7kQicGgWmkfVmESWK889RxZG49UqV7vRfYUJDFFUo',url, model_name,bucket_name, file_paths)
+        upload_files(ACCESS_ID,SECRET_KEY,url, model_name,bucket_name, file_paths)
  
         # Check for the file in the S3 bucket (DigitalOcean Spaces)
         #await check_file_in_space('DO0026WEQUG4WF6WQNJ9','UG7kQicGgWmkfVmESWK889RxZG49UqV7vRfYUJDFFUo' , bucket_name, f'{model_name}.pth')

@@ -28,7 +28,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install additional Python packages
-RUN pip install --no-cache-dir faiss-cpu==1.7.2 fairseq gradio==3.14.0 ffmpeg ffmpeg-python praat-parselmouth pyworld numpy==1.23.5 numba==0.56.4 librosa==0.9.2 flask av boto3
+RUN pip install --no-cache-dir faiss-cpu==1.7.2 fairseq gradio==3.14.0 ffmpeg-python praat-parselmouth pyworld numpy==1.23.5 numba==0.56.4 librosa==0.9.2 flask av boto3
 
 RUN pip install --no-cache-dir cloudinary
 

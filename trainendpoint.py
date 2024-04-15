@@ -39,11 +39,11 @@ def worker():
         tmpdirname = tempfile.mkdtemp(dir=os.getcwd())
         
         try:
-            for file in files:
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    filepath = os.path.join(tmpdirname, filename)
-                    file.save(filepath)
+            #for file in files:
+            #    if file and allowed_file(file.filename):
+            #        filename = secure_filename(file.filename)
+            #        filepath = os.path.join(tmpdirname, filename)
+            #       file.save(filepath)
 
             log_dir = os.path.join('logs', model_name)
             os.makedirs(log_dir, exist_ok=True)

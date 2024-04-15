@@ -36,7 +36,7 @@ def worker():
             break  # Allows the thread to end cleanly
         
         model_name, file_paths, status_file_path = task
-        tmpdirname = tempfile.mkdtemp(dir=os.getcwd())
+        #tmpdirname = tempfile.mkdtemp(dir=os.getcwd())
         
         try:
             #for file in files:
@@ -50,7 +50,7 @@ def worker():
             
             for filepath in file_paths:
 
-                subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', tmpdirname, '40000', '12', log_dir, 'False'], check=True)
+                subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', filepath, '40000', '12', log_dir, 'False'], check=True)
                 update_status(status_file_path, 'preprocess', 'Preprocessing done.')
 
                 subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
@@ -65,7 +65,7 @@ def worker():
             update_status(status_file_path, 'failed', f'Processing failed: {str(e)}')
 
         finally:
-            shutil.rmtree(tmpdirname)
+           # shutil.rmtree(tmpdirname)
             task_queue.task_done()
 
 threading.Thread(target=worker, daemon=True).start()

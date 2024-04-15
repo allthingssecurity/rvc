@@ -4,6 +4,7 @@ from upload import upload_to_do
 now_dir = os.getcwd()
 sys.path.append(os.path.join(now_dir, "train"))
 import utils
+import json
 
 hps = utils.get_hparams()
 os.environ["CUDA_VISIBLE_DEVICES"] = hps.gpus.replace("-", ",")
@@ -41,6 +42,31 @@ from mel_processing import mel_spectrogram_torch, spec_to_mel_torch
 
 
 global_step = 0
+
+
+def update_status(status_file_path, new_status, details):
+    """
+    Updates the processing status in a specified JSON file.
+
+    Parameters:
+    - status_file_path: str, the path to the JSON status file.
+    - new_status: str, the new status to write (e.g., 'completed', 'failed').
+    - details: str, a descriptive message about the new status.
+    """
+    if os.path.exists(status_file_path):
+        # Open the existing status file
+        with open(status_file_path, 'r+') as file:
+            status = json.load(file)
+            # Update the status
+            status['status'] = new_status
+            status['details'] = details
+            # Go back to the start of the file to overwrite it
+            file.seek(0)
+            json.dump(status, file, indent=4)  # Using indent for better readability
+            # Truncate the file to the current position
+            file.truncate()
+    else:
+        print(f"Error: The status file {status_file_path} does not exist.")
 
 
 def find_pth_file(directory="weights"):
@@ -558,6 +584,14 @@ def train_and_evaluate(
         response = upload_to_do(pth_file_path,pth_file_path)
 
         print(response)
+        
+        
+        status_dir = 'status'
+        status_file_path = os.path.join(status_dir, 'status.json')
+        new_status = 'completed'  # This can be changed as needed
+        details = 'Processing completed successfully.'  # Customize the detail message as needed
+        update_status(status_file_path, new_status, details)
+        
     
         #sleep(1)
         os._exit(0)

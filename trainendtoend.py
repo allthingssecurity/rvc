@@ -7,6 +7,8 @@ import aiohttp
 import boto3
 import os
 from botocore.exceptions import ClientError
+import redis
+from redis import Redis
 
 runpod.api_key =os.getenv("RUNPOD_KEY")
 
@@ -23,10 +25,13 @@ runpod.api_key =os.getenv("RUNPOD_KEY")
 ACCESS_ID=os.getenv("ACCESS_ID")
 SECRET_KEY=os.getenv("SECRET_KEY")
 
+
 env_vars = {
     "ACCESS_ID": ACCESS_ID,
     "SECRET_KEY": SECRET_KEY,
 }
+
+
 
 # Create a pod
 def create_pod_and_get_id(name, image_name, gpu_type_id, ports, container_disk_in_gb, env_vars):

@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 task_queue = queue.Queue()
 
+processing = False  # Global flag to indicate processing status
 def allowed_file(filename):
     # Replace the following line with your file validation logic
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'wav', 'mp3'}
@@ -65,10 +66,14 @@ threading.Thread(target=worker, daemon=True).start()
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
+    global processing
+    if processing:
+        return jsonify({'error': 'Another process is currently running. Please try again later.'}), 429
+
     status_dir = 'status'
     os.makedirs(status_dir, exist_ok=True)
     status_file_path = os.path.join(status_dir, 'status.json')
-    
+
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
 
@@ -85,6 +90,8 @@ def process_audio():
 
     task_queue.put((model_name, files, status_file_path))
     return jsonify({'success': True, 'message': 'Your request is queued.', 'status_path': status_file_path})
+
+
 
 @app.route('/status', methods=['GET'])
 def get_status():

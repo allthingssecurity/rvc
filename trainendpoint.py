@@ -17,13 +17,17 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'wav', 'mp3'}
 
 def update_status(status_file_path, new_status, details):
-    with open(status_file_path, 'r+') as file:
-        status = json.load(file)
-        status['status'] = new_status
-        status['details'] = details
-        file.seek(0)
-        json.dump(status, file, indent=4)
-        file.truncate()
+    try:
+        with open(status_file_path, 'r+') as file:
+            status = json.load(file)
+            status['status'] = new_status
+            status['details'] = details
+            file.seek(0)
+            json.dump(status, file, indent=4)
+            file.truncate()
+    except Exception as e:
+        print(f"Failed to update status: {e}")
+
 
 def worker():
     while True:
@@ -85,12 +89,20 @@ def process_audio():
     if not files or all(file.filename == '' for file in files):
         return jsonify({'error': 'No selected files'}), 400
 
+    file_paths = []
+    tmpdirname = tempfile.mkdtemp(dir=os.getcwd())
+    for file in files:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(tmpdirname, filename)
+            file.save(filepath)
+            file_paths.append(filepath)
+
     with open(status_file_path, 'w') as file:
         json.dump({'status': 'queued', 'details': 'Your request is queued for processing.'}, file)
 
-    task_queue.put((model_name, files, status_file_path))
+    task_queue.put((model_name, file_paths, status_file_path))
     return jsonify({'success': True, 'message': 'Your request is queued.', 'status_path': status_file_path})
-
 
 
 @app.route('/status', methods=['GET'])

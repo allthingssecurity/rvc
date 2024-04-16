@@ -49,6 +49,7 @@ def worker():
             os.makedirs(log_dir, exist_ok=True)
             
             for filepath in file_paths:
+                print(f"filepath={filepath}")
 
                 subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', filepath, '40000', '12', log_dir, 'False'], check=True)
                 update_status(status_file_path, 'preprocess', 'Preprocessing done.')

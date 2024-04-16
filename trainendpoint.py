@@ -35,7 +35,7 @@ def worker():
         if task is None:
             break  # Allows the thread to end cleanly
         
-        model_name, file_paths, status_file_path = task
+        model_name, file_path, status_file_path = task
         #tmpdirname = tempfile.mkdtemp(dir=os.getcwd())
         
         try:
@@ -48,18 +48,18 @@ def worker():
             log_dir = os.path.join('logs', model_name)
             os.makedirs(log_dir, exist_ok=True)
             
-            for filepath in file_paths:
-                print(f"filepath={filepath}")
+            
+            print(f"filepath={filepath}")
 
-                subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', filepath, '40000', '12', log_dir, 'False'], check=True)
-                update_status(status_file_path, 'preprocess', 'Preprocessing done.')
+            subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', filepath, '40000', '12', log_dir, 'False'], check=True)
+            update_status(status_file_path, 'preprocess', 'Preprocessing done.')
 
-                subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
-                subprocess.run(['python', 'extract_feature_print.py', 'cuda:0', '1', '0', '0', log_dir], check=True)
-                update_status(status_file_path, 'features', 'Feature extraction done.')
+            subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
+            subprocess.run(['python', 'extract_feature_print.py', 'cuda:0', '1', '0', '0', log_dir], check=True)
+            update_status(status_file_path, 'features', 'Feature extraction done.')
 
-                subprocess.run(['python', 'pretrain.py', '--exp_dir1', model_name, '--sr2', '40k', '--if_f0_3', '1', '--spk_id5', '0'], check=True)
-                subprocess.run(['python3', 'train_nsf_sim_cache_sid_load_pretrain.py', '-e', model_name, '-sr', '40k', '-f0', '1', '-bs', '19', '-g', '0', '-te', '200', '-se', '50', '-pg', 'pretrained/f0G40k.pth', '-pd', 'pretrained/f0D40k.pth', '-l', '0', '-c', '0'], check=True)
+            subprocess.run(['python', 'pretrain.py', '--exp_dir1', model_name, '--sr2', '40k', '--if_f0_3', '1', '--spk_id5', '0'], check=True)
+            subprocess.run(['python3', 'train_nsf_sim_cache_sid_load_pretrain.py', '-e', model_name, '-sr', '40k', '-f0', '1', '-bs', '19', '-g', '0', '-te', '200', '-se', '50', '-pg', 'pretrained/f0G40k.pth', '-pd', 'pretrained/f0D40k.pth', '-l', '0', '-c', '0'], check=True)
             update_status(status_file_path, 'completed', 'Processing completed successfully.')
 
         except Exception as e:
@@ -104,7 +104,7 @@ def process_audio():
     with open(status_file_path, 'w') as file:
         json.dump({'status': 'queued', 'details': 'Your request is queued for processing.'}, file)
 
-    task_queue.put((model_name, file_paths, status_file_path))
+    task_queue.put((model_name, tmpdirname, status_file_path))
     return jsonify({'success': True, 'message': 'Your request is queued.', 'status_path': status_file_path})
 
 

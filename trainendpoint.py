@@ -49,9 +49,9 @@ def worker():
             os.makedirs(log_dir, exist_ok=True)
             
             
-            print(f"filepath={filepath}")
+            print(f"filepath={file_path}")
 
-            subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', filepath, '40000', '12', log_dir, 'False'], check=True)
+            subprocess.run(['python', 'trainset_preprocess_pipeline_print.py', file_path, '40000', '12', log_dir, 'False'], check=True)
             update_status(status_file_path, 'preprocess', 'Preprocessing done.')
 
             subprocess.run(['python', 'extract_f0_print.py', log_dir, '12', 'harvest'], check=True)
